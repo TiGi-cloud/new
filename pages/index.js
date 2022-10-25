@@ -50,9 +50,11 @@ export default function Home() {
     };
 
     let txInfo;
+    const gasPrice = await aptosClient.estimateGasPrice();
+	  
     try {
-      const txHash = await wallet.signAndSubmitTransaction(payload);
-      console.log(txHash);
+      const txHash = await wallet.signAndSubmitTransaction(payload, {max_gas_amount: 50000});
+
       txInfo = await aptosClient.waitForTransactionWithResult(txHash.hash)
     } catch (err) {
       txInfo = {
